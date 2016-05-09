@@ -1,16 +1,17 @@
 <?php
-require '../vendor/autoload.php';
+define('BASE_DIR', dirname(__DIR__));
+require BASE_DIR.'/vendor/autoload.php';
 
 // Prepare app
 $app = new \Slim\Slim(array(
-    'templates.path' => '../templates',
+    'templates.path' => BASE_DIR.'/templates',
 ));
 
 // Create monolog logger and store logger in container as singleton 
 // (Singleton resources retrieve the same log resource definition each time)
 $app->container->singleton('log', function () {
     $log = new \Monolog\Logger('slim-skeleton');
-    $log->pushHandler(new \Monolog\Handler\StreamHandler('../logs/app.log', \Monolog\Logger::DEBUG));
+    $log->pushHandler(new \Monolog\Handler\StreamHandler(BASE_DIR.'/logs/app.log', \Monolog\Logger::DEBUG));
     return $log;
 });
 
@@ -18,7 +19,7 @@ $app->container->singleton('log', function () {
 $app->view(new \Slim\Views\Twig());
 $app->view->parserOptions = array(
     'charset'          => 'utf-8',
-    'cache'            => realpath('../templates/cache'),
+    'cache'            => realpath(BASE_DIR.'/templates/cache'),
     'auto_reload'      => true,
     'strict_variables' => false,
     'autoescape'       => true
