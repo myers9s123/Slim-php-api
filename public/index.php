@@ -31,11 +31,20 @@ $app->container->singleton('log', function () {
 });
 
 // Define routes
-$app->get('/', function () use ($app) {
-    // Sample log message
-    $app->log->info("Slim-Skeleton '/' route");
-    // Render index view
-    $app->render('index.html');
+$app->get('/providers', function () use ($app) {
+    //
+});
+$app->get('/providers/:id', function ($id) use ($app) {
+    //
+});
+$app->post('/providers', function () use ($app) {
+    //
+});
+$app->put('/providers/:id', function ($id) use ($app) {
+    //
+});
+$app->delete('/providers/:id', function ($id) use ($app) {
+    //
 });
 
 // Run app
