@@ -4,8 +4,23 @@ require BASE_DIR.'/vendor/autoload.php';
 
 // Prepare app
 $app = new \Slim\Slim(array(
+    'name'           => 'API Test',
+    'mode'           => 'development',
     'templates.path' => BASE_DIR.'/templates',
 ));
+
+// Production specifc settings
+$app->configureMode('production', function () use ($app) {
+    $app->config(array(
+        'debug' => false,
+    ));
+});
+// Development settings
+$app->configureMode('development', function () use ($app) {
+    $app->config(array(
+        'debug' => true,
+    ));
+});
 
 // Create monolog logger and store logger in container as singleton 
 // (Singleton resources retrieve the same log resource definition each time)
@@ -14,17 +29,6 @@ $app->container->singleton('log', function () {
     $log->pushHandler(new \Monolog\Handler\StreamHandler(BASE_DIR.'/logs/app.log', \Monolog\Logger::DEBUG));
     return $log;
 });
-
-// Prepare view
-$app->view(new \Slim\Views\Twig());
-$app->view->parserOptions = array(
-    'charset'          => 'utf-8',
-    'cache'            => realpath(BASE_DIR.'/templates/cache'),
-    'auto_reload'      => true,
-    'strict_variables' => false,
-    'autoescape'       => true
-);
-$app->view->parserExtensions = array(new \Slim\Views\TwigExtension());
 
 // Define routes
 $app->get('/', function () use ($app) {
