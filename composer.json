@@ -18,5 +18,10 @@
         "slim/views": "0.*",
         "twig/twig": "1.*",
         "usmanhalalit/pixie": "2.*@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "HealthCare\\": "private/classes/namespaced/"
+        }
     }
 }
